@@ -15,13 +15,19 @@ function run (event) {
 
   axios.get(`https://viacep.com.br/ws/${zipCode}/json/`)
     .then(response => {
+      // Pula para o catch caso dê erro
+      if(response.data.erro){
+        throw new Error('CEP inválido') // throw inicia o erro
+      }
+
       content.innerHTML = '' //Inicia o conteúdo vazio
       createLine(response.data.logradouro)
       createLine(response.data.localidade + '/' + response.data.uf)
       createLine(response.data.bairro)
     })
     .catch(error => {
-      console.log(error)
+      content.innerHTML = ''
+      createLine('Ops, algo deu errado!')
     })
 }
 
