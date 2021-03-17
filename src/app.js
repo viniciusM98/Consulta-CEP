@@ -15,9 +15,20 @@ function run (event) {
 
   axios.get(`https://viacep.com.br/ws/${zipCode}/json/`)
     .then(response => {
-      console.log(response.data)
+      content.innerHTML = '' //Inicia o conteúdo vazio
+      createLine(response.data.logradouro)
+      createLine(response.data.localidade + '/' + response.data.uf)
+      createLine(response.data.bairro)
     })
     .catch(error => {
       console.log(error)
     })
+}
+
+function createLine(valor){
+  let line = document.createElement('p')
+  let text = document.createTextNode(valor)
+
+  line.appendChild(text)
+  content.appendChild(line)
 }
